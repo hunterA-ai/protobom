@@ -76,6 +76,8 @@ func (fs *Sniffer) SniffReader(f io.ReadSeeker) (Format, error) {
 				// JSON + BomFormat CycloneDX but specVersion not 1.3, 1.4, or 1.5
 				return "", fmt.Errorf("unknown SBOM format")
 			}
+		} else if strings.EqualFold(specversionjson.BomFormat, CYFORMAT) { // FIXME: No metadata indicator of cytrics bom, must add {bomFormat: "cytrics",} field to CyTRICS BOMS for the sniffer to recognize format
+			return CY02JSON, nil
 		} else {
 			// JSON but not CycloneDX so assuming SPDX
 			switch specversionjson.SPDXSpecVersion {
